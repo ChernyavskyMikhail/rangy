@@ -1411,7 +1411,7 @@ rangy.createModule("TextRange", ["WrappedSelection"], function(api, module) {
             switch (unit) {
                 case CHARACTER:
                     charIterator = createCharacterIterator(pos, backward, null, characterOptions);
-                    while ( (currentPos = charIterator.next()) && unitsMoved < absCount ) {
+                    while ( unitsMoved < absCount && (currentPos = charIterator.next()) ) {
                         log.info("*** movePositionBy GOT CHAR " + currentPos.character + "[" + currentPos.character.charCodeAt(0) + "] at position " + currentPos.inspect());
                         ++unitsMoved;
                         newPos = currentPos;
@@ -1424,7 +1424,7 @@ rangy.createModule("TextRange", ["WrappedSelection"], function(api, module) {
                     var tokenizedTextProvider = createTokenizedTextProvider(pos, characterOptions, wordOptions);
                     var next = backward ? tokenizedTextProvider.previousStartToken : tokenizedTextProvider.nextEndToken;
 
-                    while ( (token = next()) && unitsMoved < absCount ) {
+                    while ( unitsMoved < absCount && (token = next()) ) {
                         log.debug("token: " + token.chars.join(""), token.isWord);
                         if (token.isWord) {
                             ++unitsMoved;
